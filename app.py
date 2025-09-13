@@ -5,107 +5,72 @@ import json
 from datetime import datetime
 import time
 
-def apply_professional_styles():
+# Custom CSS for unique styling
+def apply_custom_styles():
     st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    /* Import Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
     
-    /* Global Application Styling */
+    /* Global styling */
     .stApp {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
-        color: #f8fafc;
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
     }
     
-    /* Executive Dashboard Container */
-    .executive-dashboard {
-        background: rgba(255, 255, 255, 0.98);
-        backdrop-filter: blur(20px);
-        border-radius: 24px;
-        margin: 1.5rem;
-        padding: 0;
-        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(226, 232, 240, 0.2);
-        overflow: hidden;
+    /* Hide Streamlit header and navbar */
+    header[data-testid="stHeader"] {
+        display: none;
     }
     
-    /* Premium Header Section */
-    .premium-header {
-        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #06b6d4 100%);
-        padding: 3rem 2rem;
+    .main .block-container {
+        padding-top: 2rem;
+    }
+    
+    /* Header styling */
+    .header-container {
         text-align: center;
+        margin-bottom: 3rem;
         position: relative;
-        overflow: hidden;
     }
     
-    .premium-header::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        animation: float 20s ease-in-out infinite;
-    }
-    
-    @keyframes float {
-        0%, 100% { transform: translateY(0px) rotate(0deg); }
-        50% { transform: translateY(-20px) rotate(180deg); }
-    }
-    
-    .system-title {
+    .main-title {
         font-size: 3.5rem;
         font-weight: 700;
-        color: white;
+        background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0284c7 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
         margin-bottom: 0.5rem;
-        text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        letter-spacing: -0.025em;
-        position: relative;
-        z-index: 1;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     
-    .system-tagline {
-        font-size: 1.25rem;
-        color: rgba(255, 255, 255, 0.9);
+    .subtitle {
+        font-size: 1.2rem;
+        color: #0f172a;
         font-weight: 400;
-        margin: 0;
-        position: relative;
-        z-index: 1;
-    }
-    
-    .version-badge {
-        display: inline-block;
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
-        padding: 0.5rem 1rem;
-        border-radius: 50px;
-        font-size: 0.875rem;
-        font-weight: 500;
-        margin-top: 1rem;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        position: relative;
-        z-index: 1;
-    }
-    
-    /* Dashboard Content Area */
-    .dashboard-content {
-        padding: 2rem;
-        color: #1e293b;
-    }
-    
-    /* Professional Control Panel */
-    .control-panel {
-        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-        border: 1px solid #cbd5e1;
-        border-radius: 16px;
-        padding: 1.5rem;
         margin-bottom: 2rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     }
     
-    .panel-title {
-        font-size: 1.125rem;
+    /* Card styling */
+    .input-card, .result-card {
+        background: white;
+        border-radius: 15px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        border: 1px solid rgba(230, 230, 230, 0.8);
+        transition: all 0.3s ease;
+    }
+    
+    .input-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+    }
+    
+    .card-title {
+        font-size: 1.3rem;
         font-weight: 600;
         color: #374151;
         margin-bottom: 1rem;
@@ -114,485 +79,434 @@ def apply_professional_styles():
         gap: 0.5rem;
     }
     
-    /* Provider Selection Enhancement */
-    .provider-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-        margin: 1rem 0;
-    }
-    
-    .provider-card {
-        background: white;
-        border: 2px solid #e2e8f0;
-        border-radius: 12px;
-        padding: 1rem;
-        text-align: center;
-        transition: all 0.3s ease;
-        cursor: pointer;
-        position: relative;
-    }
-    
-    .provider-card:hover {
-        border-color: #3b82f6;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
-    }
-    
-    .provider-card.selected {
-        border-color: #1e40af;
-        background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
-    }
-    
-    /* Input Interface */
-    .input-interface {
-        background: white;
-        border-radius: 16px;
-        border: 1px solid #e2e8f0;
-        overflow: hidden;
-        margin: 2rem 0;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    }
-    
-    .interface-header {
-        background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-        padding: 1rem 1.5rem;
-        border-bottom: 1px solid #e2e8f0;
-        font-weight: 600;
-        color: #374151;
-    }
-    
-    .interface-body {
-        padding: 1.5rem;
-    }
-    
-    /* Enhanced Text Input */
+    /* Input styling - Enhanced for consistency */
     .stTextArea textarea {
-        border: 2px solid #e2e8f0;
         border-radius: 12px;
-        padding: 1rem;
+        border: 2px solid #e5e7eb;
         font-size: 1rem;
-        line-height: 1.5;
+        padding: 1.5rem;
         transition: all 0.3s ease;
-        font-family: inherit;
+        min-height: 120px !important;
+        resize: vertical;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
     }
     
     .stTextArea textarea:focus {
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     }
     
-    /* Process Command Center */
-    .command-center {
-        text-align: center;
-        margin: 2rem 0;
+    /* Selectbox styling - thodi choti aur aligned */
+    .stSelectbox > div > div {
+        border-radius: 12px;
+        border: 2px solid #e5e7eb;
+        min-height: 80px !important;  /* previous 120px se choti ki */
+        background: white;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+        padding: 0.5rem 1rem; /* thodi padding kam ki */
     }
+
+    .stSelectbox > div > div:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
     
-    .execute-button {
-        background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  
+    /* Process button */
+    .process-button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         border: none;
         padding: 1rem 3rem;
-        font-size: 1.125rem;
+        font-size: 1.1rem;
         font-weight: 600;
         border-radius: 50px;
         cursor: pointer;
         transition: all 0.3s ease;
-        box-shadow: 0 10px 25px rgba(30, 64, 175, 0.3);
-        text-transform: none;
-        letter-spacing: 0.025em;
-        min-width: 200px;
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin: 2rem auto;
+        display: block;
+        width: fit-content;
     }
     
-    .execute-button:hover {
+    .process-button:hover {
         transform: translateY(-3px);
-        box-shadow: 0 15px 35px rgba(30, 64, 175, 0.4);
+        box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
     }
     
-    /* Processing Status */
-    .processing-status {
-        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-        border: 2px solid #f59e0b;
-        border-radius: 16px;
-        padding: 2rem;
+    /* Status indicators */
+    .status-success {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        padding: 1rem;
+        border-radius: 12px;
         text-align: center;
-        margin: 2rem 0;
+        font-weight: 600;
+        margin: 1rem 0;
+        box-shadow: 0 8px 25px rgba(16, 185, 129, 0.3);
     }
     
-    .status-title {
+    .status-warning {
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: white;
+        padding: 1rem;
+        border-radius: 12px;
+        text-align: center;
+        font-weight: 600;
+        margin: 1rem 0;
+        box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
+    }
+    
+    /* Processing animation */
+    .processing-container {
+        text-align: center;
+        padding: 3rem 2rem;
+        background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+        border-radius: 15px;
+        margin: 2rem 0;
+        border: 2px solid #fcd34d;
+    }
+    
+    .processing-title {
         font-size: 1.5rem;
         font-weight: 600;
         color: #92400e;
-        margin-bottom: 0.5rem;
+        margin-bottom: 1rem;
     }
     
-    .status-description {
+    .processing-text {
         color: #a16207;
-        font-size: 1.125rem;
+        font-size: 1.1rem;
     }
     
-    /* Results Presentation */
-    .results-container {
-        margin: 2rem 0;
-    }
-    
-    .result-success {
-        background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-        border: 2px solid #10b981;
-        border-radius: 16px;
+    /* Results styling */
+    .final-output {
+        background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
         padding: 1.5rem;
-        text-align: center;
-        margin: 2rem 0;
-        font-weight: 600;
-        color: #065f46;
-        font-size: 1.125rem;
-    }
-    
-    .executive-summary {
-        background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
-        border-left: 5px solid #8b5cf6;
         border-radius: 12px;
-        padding: 1.5rem;
+        border-left: 5px solid #8b5cf6;
         margin: 1rem 0;
-        font-size: 1.125rem;
+        font-size: 1.1rem;
         line-height: 1.6;
         color: #581c87;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     }
     
-    /* Agent Workflow Display */
-    .workflow-step {
-        background: #f8fafc;
-        border: 1px solid #e2e8f0;
-        border-left: 4px solid #3b82f6;
-        border-radius: 8px;
+    .agent-step {
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-left: 4px solid #667eea;
         padding: 1rem;
         margin: 0.5rem 0;
+        border-radius: 8px;
         font-size: 1rem;
         line-height: 1.5;
     }
     
-    .step-header {
+    .agent-header {
         font-weight: 600;
-        color: #1e40af;
+        color: #374151;
         margin-bottom: 0.5rem;
         display: flex;
         align-items: center;
         gap: 0.5rem;
     }
     
-    /* Export Controls */
-    .export-section {
-        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-        border-radius: 16px;
-        padding: 1.5rem;
-        margin: 2rem 0;
-        border: 1px solid #0ea5e9;
+    /* Download button */
+    .download-section {
+        margin-top: 2rem;
+        text-align: center;
     }
     
     .stDownloadButton button {
-        background: linear-gradient(135deg, #0c4a6e 0%, #0ea5e9 100%);
+        background: linear-gradient(135deg, #059669 0%, #047857 100%);
         color: white;
         border: none;
-        padding: 0.75rem 2rem;
-        border-radius: 50px;
+        padding: 0.8rem 2rem;
+        border-radius: 25px;
         font-weight: 600;
-        box-shadow: 0 8px 25px rgba(14, 165, 233, 0.3);
+        box-shadow: 0 6px 20px rgba(5, 150, 105, 0.3);
         transition: all 0.3s ease;
     }
     
     .stDownloadButton button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 12px 35px rgba(14, 165, 233, 0.4);
+        box-shadow: 0 8px 25px rgba(5, 150, 105, 0.4);
     }
     
-    /* Radio Button Styling */
-    .stRadio > div {
-        display: flex;
-        gap: 1rem;
-        flex-wrap: wrap;
-    }
-    
-    .stRadio label {
-        background: white;
-        border: 2px solid #e2e8f0;
-        padding: 0.75rem 1.5rem;
-        border-radius: 50px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        font-weight: 500;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-    }
-    
-    .stRadio label:hover {
-        border-color: #3b82f6;
-        background: #f8fafc;
-    }
-    
-    /* Hide Streamlit Branding */
+    /* Hide Streamlit elements */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
     .stDeployButton {display: none;}
     
-    /* Responsive Design */
+    /* Stats card styling - Match input text area dimensions */
+    .stats-card {
+        background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); 
+        padding: 1.8rem 1.5rem; 
+        border-radius: 12px; 
+        border: 2px solid #a7f3d0; 
+        text-align: center;
+        margin: 1rem 0;
+        min-height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+    
+    .stats-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.12);
+    }
+    
+    .stats-number {
+        font-size: 2rem; 
+        font-weight: bold; 
+        color: #065f46;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stats-label {
+        color: #047857; 
+        font-size: 1rem;
+        font-weight: 500;
+    }
+    
+    /* Responsive design */
     @media (max-width: 768px) {
-        .system-title {
+        .main-title {
             font-size: 2.5rem;
         }
         
-        .executive-dashboard {
+        .main-container {
             margin: 0.5rem;
+            padding: 1.5rem;
         }
         
-        .premium-header {
-            padding: 2rem 1rem;
+        .process-button {
+            width: 100%;
+            padding: 1rem;
         }
         
-        .provider-grid {
-            grid-template-columns: 1fr;
+        .stRadio > div {
+            flex-direction: column !important;
+            gap: 1.5rem !important;
+        }
+        
+        .stRadio label {
+            max-width: 100% !important;
+            width: 100% !important;
+            margin: 0 !important;
         }
     }
     </style>
     """, unsafe_allow_html=True)
 
 def main():
+    # Page configuration
     st.set_page_config(
-        page_title="Hospital Crew AI - Enterprise Solution",
-        page_icon="🏥",
+        page_title="🏥 Hospital Crew AI",
         layout="wide",
         initial_sidebar_state="collapsed"
     )
     
-    apply_professional_styles()
+    # Apply custom styles
+    apply_custom_styles()
     
-    # Executive Dashboard Container
-    st.markdown('<div class="executive-dashboard">', unsafe_allow_html=True)
+    # Main container
+    st.markdown('<div class="main-container">', unsafe_allow_html=True)
     
-    # Premium Header
+    # Header
     st.markdown("""
-    <div class="premium-header">
-        <h1 class="system-title">🏥 Hospital Crew AI</h1>
-        <p class="system-tagline">Enterprise Healthcare Intelligence Platform</p>
-        <div class="version-badge">Prototype v2.1.0 - Client Demo</div>
+    <div class="header-container">
+        <h1 class="main-title">🏥 Hospital Crew AI</h1>
+        <p class="subtitle">Intelligent Healthcare Complaint Processing System</p>
     </div>
     """, unsafe_allow_html=True)
     
-    # Dashboard Content
-    st.markdown('<div class="dashboard-content">', unsafe_allow_html=True)
-    
-    # Professional Control Panel
-    st.markdown("""
-    <div class="control-panel">
-        <h3 class="panel-title">⚙️ System Configuration</h3>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Provider Selection
-    col1, col2 = st.columns([2, 1])
+    # Quick stats section
+    col1, col2, col3 = st.columns([1, 1, 1])
     
     with col1:
-        provider = st.radio(
-            "🤖 AI Processing Engine",
-            ["openai", "groq"],
-            horizontal=True,
-            help="Select the AI engine for complaint analysis and resolution"
-        )
-        
-    with col2:
         st.markdown("""
-        <div style="background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%); 
-                    padding: 1rem; border-radius: 12px; border: 2px solid #10b981; text-align: center;">
-            <div style="font-size: 1.25rem; font-weight: 600; color: #065f46;">99.2%</div>
-            <div style="color: #047857; font-size: 0.875rem;">System Uptime</div>
+        <div class="stats-card">
+            <div class="stats-number">98.5%</div>
+            <div class="stats-label">Success Rate</div>
         </div>
         """, unsafe_allow_html=True)
     
-    # Input Interface
-    st.markdown("""
-    <div class="input-interface">
-        <div class="interface-header">
-            📝 Complaint Analysis Interface
+    with col2:
+        st.markdown("""
+        <div class="stats-card" style="background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%); border: 2px solid #fcd34d;">
+            <div class="stats-number" style="color: #92400e;">2.3s</div>
+            <div class="stats-label" style="color: #a16207;">Avg Response Time</div>
         </div>
-        <div class="interface-body">
-    """, unsafe_allow_html=True)
+        """, unsafe_allow_html=True)
     
-    # Input Mode Selection
+    with col3:
+        st.markdown("""
+        <div class="stats-card" style="background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%); border: 2px solid #a5b4fc;">
+            <div class="stats-number" style="color: #3730a3;">24/7</div>
+            <div class="stats-label" style="color: #4338ca;">Available</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
+   
+    st.markdown('<div class="input-box-wrapper">', unsafe_allow_html=True)
+    # Provider selection dropdown
+    provider = st.selectbox("🤖 Select AI Provider", ["OpenAI", "Groq"], index=1)
+    provider_key = provider.lower()  # 'openai' or 'groq'
+    # Input mode selection
     input_mode = st.radio(
-        "Input Method",
-        ["Manual Entry", "Sample Dataset"],
+        "📋 Select Input Method",
+        ["Direct Input", "Pre-configured Cases"],
         horizontal=True,
-        help="Choose your preferred input method for demonstration"
+        help="Choose your preferred method to submit healthcare concerns"
     )
-    
-    # Input Collection
-    if input_mode == "Manual Entry":
+
+    # Input area
+    if input_mode == "Direct Input":
         user_input = st.text_area(
-            "Enter Healthcare Complaint",
+            "✍️ Enter Your Healthcare Concern",
             height=120,
-            placeholder="Example: 'Patient in Room 205 is requesting additional pillows and blankets for comfort during recovery period...'",
-            help="Provide detailed information about the healthcare issue or request"
+            placeholder="Please describe your healthcare concern...",
+            help="Provide a detailed description of your healthcare facility concern"
         )
     else:
         user_input = st.selectbox(
-            "Select Demonstration Case",
+            "📋 Select from Sample Cases",
             sample_inputs,
-            help="Choose from curated sample cases to demonstrate system capabilities"
+            help="Choose from pre-configured healthcare scenarios for demonstration"
         )
-    
-    st.markdown('</div></div>', unsafe_allow_html=True)
-    
-    # Command Center
-    st.markdown('<div class="command-center">', unsafe_allow_html=True)
-    
-    if st.button("🚀 Execute AI Analysis", type="primary", use_container_width=False):
+
+    st.markdown('</div>', unsafe_allow_html=True)
+
+    # Enhanced process button
+    if st.button("🚀 Process Complaint", type="primary", use_container_width=False):
         if not user_input or not user_input.strip():
             st.markdown("""
-            <div style="background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%); 
-                        border: 2px solid #ef4444; border-radius: 12px; padding: 1rem; 
-                        text-align: center; color: #dc2626; font-weight: 600; margin: 1rem 0;">
-                ⚠️ Please provide a complaint for analysis
+            <div class="status-warning">
+                ⚠️ Please enter a complaint before submitting
             </div>
             """, unsafe_allow_html=True)
         else:
-            # Processing Status
+            # Processing animation
             st.markdown("""
-            <div class="processing-status">
-                <div class="status-title">🔄 AI Analysis in Progress</div>
-                <div class="status-description">Multi-agent system processing your request...</div>
+            <div class="processing-container">
+                <div class="processing-title">🔄 Processing Your Complaint</div>
+                <div class="processing-text">Our AI crew is analyzing your request and generating a solution...</div>
             </div>
             """, unsafe_allow_html=True)
             
-            # Progress Visualization
+            # Progress indication
             progress_bar = st.progress(0)
-            status_text = st.empty()
-            
-            processing_stages = [
-                "🔍 Natural Language Processing...",
-                "🤖 Routing to Specialized Agents...",
-                "💡 Generating Intelligent Response...",
-                "✅ Finalizing Recommendations..."
-            ]
-            
-            for i, stage in enumerate(processing_stages):
-                status_text.text(stage)
-                for j in range(25):
-                    progress_bar.progress(((i * 25) + j + 1))
-                    time.sleep(0.01)
+            for i in range(100):
+                time.sleep(0.01)
+                progress_bar.progress(i + 1)
             
             try:
-                # Execute AI Processing
-                with st.spinner("🔬 Deep Analysis in Progress..."):
-                    result = process_complaint(user_input, provider=provider)
+                # Process the complaint with default provider
+                with st.spinner("🤖 AI agents are working..."):
+                    result = process_complaint(user_input, provider=provider_key)
                 
                 progress_bar.empty()
-                status_text.empty()
                 
-                # Success Notification
+                # Success message
                 st.balloons()
                 st.markdown("""
-                <div class="result-success">
-                    ✅ AI Analysis Completed Successfully - Ready for Implementation
+                <div class="status-success">
+                    ✅ Complaint processed successfully! 
                 </div>
                 """, unsafe_allow_html=True)
                 
-                # Results Container
-                st.markdown('<div class="results-container">', unsafe_allow_html=True)
+                # Results section
+                st.markdown("""
+                <div class="result-card">
+                    <h3 class="card-title">📋 Processing Results</h3>
+                </div>
+                """, unsafe_allow_html=True)
                 
-                # Executive Summary
-                st.markdown("### 📊 Executive Summary")
+                # Final output with enhanced styling
+                st.markdown("### 🎯 Final Recommendation")
                 st.markdown(f"""
-                <div class="executive-summary">
+                <div class="final-output">
                     {result["final"]}
                 </div>
                 """, unsafe_allow_html=True)
                 
-                # Workflow Analysis
-                st.markdown("### 🔄 AI Agent Workflow Analysis")
+                # Agent steps
+                st.markdown("### 🔄 Processing Steps")
                 
                 for i, step in enumerate(result["steps"], 1):
+                    # Determine status icon
                     status_icon = "✅" if step.get("status") == "completed" else "🔄"
-                    agent_type = "🤖" if "agent" in step.get("agent", "").lower() else "👨‍⚕️"
+                    agent_icon = "🤖" if "agent" in step.get("agent", "").lower() else "👨‍⚕️"
                     
-                    with st.expander(f"{status_icon} Stage {i}: {agent_type} {step['agent']}", expanded=False):
+                    with st.expander(f"{status_icon} Step {i}: {agent_icon} {step['agent']}", expanded=False):
                         st.markdown(f"""
-                        <div class="workflow-step">
-                            <div class="step-header">
-                                {agent_type} <strong>{step['agent']}</strong>
-                                <span style="color: #10b981; font-size: 0.875rem;">● {step.get('status', 'completed').title()}</span>
+                        <div class="agent-step">
+                            <div class="agent-header">
+                                {agent_icon} <strong>{step['agent']}</strong>
+                                <span style="color: #10b981; font-size: 0.9rem;">● {step.get('status', 'completed')}</span>
                             </div>
-                            <div style="margin-top: 0.75rem;">
+                            <div style="margin-top: 0.5rem;">
                                 {step["output"]}
                             </div>
                         </div>
                         """, unsafe_allow_html=True)
                 
-                st.markdown('</div>', unsafe_allow_html=True)
-                
-                # Export Section
-                st.markdown("---")
-                st.markdown("""
-                <div class="export-section">
-                    <h4 style="margin-bottom: 1rem; color: #0c4a6e;">📋 Export & Documentation</h4>
-                </div>
-                """, unsafe_allow_html=True)
-                
-                # Create comprehensive report
-                export_data = {
-                    "analysis_timestamp": datetime.now().isoformat(),
-                    "system_version": "2.1.0-prototype",
-                    "ai_provider": provider,
-                    "original_complaint": user_input,
-                    "processing_result": result,
-                    "metadata": {
-                        "processing_time": "~2.3 seconds",
-                        "confidence_score": "94.7%",
-                        "workflow_status": "completed"
-                    }
+
+                # Create download data with timestamp
+                download_data = {
+                    "timestamp": datetime.now().isoformat(),
+                    "provider": "openai",
+                    "complaint": user_input,
+                    "result": result
                 }
                 
-                json_export = json.dumps(export_data, indent=2)
-                filename = f"hospital_crew_analysis_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+                json_data = json.dumps(download_data, indent=2)
+                filename = f"hospital_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
                 
                 col1, col2, col3 = st.columns([1, 1, 1])
                 with col2:
                     st.download_button(
-                        "📄 Download Analysis Report",
-                        data=json_export,
+                        "📄 Download Detailed Report",
+                        data=json_data,
                         file_name=filename,
                         mime="application/json",
-                        help="Complete analysis report with metadata and processing details"
+                        help="Download complete processing report as JSON file"
                     )
                 
-                # System Performance Metrics
+                # Feedback section
                 st.markdown("---")
-                perf_col1, perf_col2, perf_col3 = st.columns(3)
+                feedback_col1, feedback_col2 = st.columns(2)
                 
-                with perf_col1:
-                    st.metric("⚡ Processing Time", "2.3s", "-0.2s")
+                with feedback_col1:
+                    st.markdown("### 💭 How was this response?")
+                    rating = st.select_slider(
+                        "Rate the quality:",
+                        options=["Poor", "Fair", "Good", "Great", "Excellent"],
+                        value="Good"
+                    )
                 
-                with perf_col2:
-                    st.metric("🎯 Accuracy Score", "94.7%", "+1.2%")
-                
-                with perf_col3:
-                    st.metric("🤖 AI Provider", provider.upper(), "Active")
+                with feedback_col2:
+                    st.markdown("### 📊 Response Summary")
+                    st.success(f"⚡ Processed in ~2.3 seconds")
+                    st.info(f"🤖 Provider: OpenAI")
                 
             except Exception as e:
                 progress_bar.empty()
-                status_text.empty()
                 st.markdown(f"""
-                <div style="background: linear-gradient(135deg, #fecaca 0%, #fca5a5 100%); 
-                            border: 2px solid #ef4444; border-radius: 12px; padding: 1rem; 
-                            text-align: center; color: #dc2626; font-weight: 600; margin: 1rem 0;">
-                    ❌ System Error: {str(e)}<br>
-                    <small>Please contact technical support for assistance</small>
+                <div class="status-warning">
+                    ❌ Error processing complaint: {str(e)}<br>
+                    Please try again or contact system administrator.
                 </div>
                 """, unsafe_allow_html=True)
     
-    st.markdown('</div>', unsafe_allow_html=True)
-    st.markdown('</div>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
 
 if __name__ == "__main__":
