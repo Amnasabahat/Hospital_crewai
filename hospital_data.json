@@ -1,0 +1,13 @@
+{
+  "patients": [
+    {"id":"P001","name":"John Doe","room":"205","diet":"regular","allergies":[]}
+  ],
+  "rooms": [
+    {"room":"205","status":"occupied","issues":[]},
+    {"room":"102","status":"occupied","issues":["lights flickering"]}
+  ],
+  "inventory": [
+    {"item":"pillow","count":42,"locations":["MainStorage","Floor2"]},
+    {"item":"bulb","count":15,"locations":["Maintenance"] }
+  ]
+}
