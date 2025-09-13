@@ -1,5 +1,5 @@
-streamlit==1.25.0
-openai==1.27.8
-groq==0.1.7
-python-dotenv==1.0.0
+streamlit
+openai
+groq
+python-dotenv
 crewai
