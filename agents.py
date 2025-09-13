@@ -1,12 +1,13 @@
 import os
-from openai import OpenAI as OpenAIClient
 from groq import Groq
 from dotenv import load_dotenv
+from openai import OpenAI
+
 
 load_dotenv()
 
 # 🔑 Clients
-openai_client = OpenAIClient(api_key=os.getenv("OPENAI_API_KEY"))
+openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 # 🔥 Multi-provider response generator
