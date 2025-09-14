@@ -84,9 +84,9 @@ def apply_custom_styles():
         border-radius: 12px;
         border: 2px solid #e5e7eb;
         font-size: 1rem;
-        padding: 1.5rem;
+        padding: 1.2rem;
         transition: all 0.3s ease;
-        min-height: 120px !important;
+        min-height: 50px ;
         resize: vertical;
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
     }
@@ -96,24 +96,107 @@ def apply_custom_styles():
         box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
     }
     
-    /* Selectbox styling - thodi choti aur aligned */
+    /* Selectbox styling - Dark mode compatible */
     .stSelectbox > div > div {
         border-radius: 12px;
         border: 2px solid #e5e7eb;
-        min-height: 80px !important;  /* previous 120px se choti ki */
-        background: white;
+        min-height: 60px !important;
+        background: var(background-color, white);
         transition: all 0.3s ease;
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-        padding: 0.5rem 1rem; /* thodi padding kam ki */
+        padding: 0.5rem 1rem;
     }
 
     .stSelectbox > div > div:hover {
         transform: translateY(-1px);
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Dark mode adaptive selectbox text */
+    .stSelectbox [data-baseweb="select"] {
+        border: none !important;
+        color: var(--text-color) !important;
+    }
+    
+    .stSelectbox [data-baseweb="select"] > div {
+        color: var(--text-color) !important;
+        background: transparent !important;
+    }
+    
+    .stSelectbox [data-baseweb="select"] [role="option"] {
+        color: var(--text-color) !important;
+        background: var(--background-color, white) !important;
+    }
+    
+    .stSelectbox [data-baseweb="select"] [role="option"]:hover {
+        background: var(--secondary-background-color, #f0f0f0) !important;
+    }
+    
+    /* Radio button styling - Dark mode compatible */
+    .stRadio {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 2rem 0 !important;
+        min-height: 10px!important;
+        box-shadow: none !important;
+    }
+    
+    .stRadio > div {
+        flex-direction: row !important;
+        gap: 2rem !important;
+        align-items: stretch !important;
+        justify-content: center !important;
+        width: 100% !important;
+        display: flex !important;
+        padding: 0 !important;
+    }
+    .stRadio > div {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 2rem !important;
+    flex-wrap: wrap !important;
+    width: 100% !important;
 }
 
     
-  
+    .stRadio label {
+        background: var(--background-color, white) !important;
+        padding: 1rem 1.5rem !important;
+        border-radius: 10px !important;
+        border: 2px solid #e5e7eb !important;
+        cursor: pointer !important;
+        transition: all 0.3s ease !important;
+        font-weight: 600 !important;
+        font-size: 1.5rem !important;
+        text-align: center !important;
+        flex: 1 !important;
+        min-width: 900px !important;
+        min-height: 60px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 0 !important;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08) !important;
+        color: var(--text-color, #374151) !important;
+    }
+
+    .stRadio label:hover {
+        border-color: #667eea !important;
+        background: rgba(102, 126, 234, 0.05) !important;
+        transform: translateY(-3px) !important;
+        box-shadow: 0 12px 35px rgba(102, 126, 234, 0.15) !important;
+    }
+
+   .stRadio [aria-checked="true"] {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    font-weight: 700 !important;
+}
+
+    .stRadio input[type="radio"] {
+        display: none !important;
+    }
     /* Process button */
     .process-button {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -183,7 +266,7 @@ def apply_custom_styles():
         font-size: 1.1rem;
     }
     
-    /* Results styling */
+    /* Results styling - Dark mode compatible */
     .final-output {
         background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
         padding: 1.5rem;
@@ -196,7 +279,7 @@ def apply_custom_styles():
     }
     
     .agent-step {
-        background: #f9fafb;
+        background: var(--secondary-background-color, #f9fafb);
         border: 1px solid #e5e7eb;
         border-left: 4px solid #667eea;
         padding: 1rem;
@@ -204,11 +287,12 @@ def apply_custom_styles():
         border-radius: 8px;
         font-size: 1rem;
         line-height: 1.5;
+        color: var(--text-color, #374151);
     }
     
     .agent-header {
         font-weight: 600;
-        color: #374151;
+        color: var(--text-color, #374151);
         margin-bottom: 0.5rem;
         display: flex;
         align-items: center;
@@ -274,6 +358,19 @@ def apply_custom_styles():
         color: #047857; 
         font-size: 1rem;
         font-weight: 500;
+    }
+    
+    /* Dark mode variables - Streamlit automatically sets these */
+    :root {
+        --text-color: #262730;
+        --background-color: #ffffff;
+        --secondary-background-color: #f0f2f6;
+    }
+    
+    [data-theme="dark"] {
+        --text-color: #fafafa;
+        --background-color: #0e1117;
+        --secondary-background-color: #262730;
     }
     
     /* Responsive design */
@@ -360,12 +457,12 @@ def main():
     # Provider selection dropdown
     provider = st.selectbox("🤖 Select AI Provider", ["OpenAI", "Groq"], index=1)
     provider_key = provider.lower()  # 'openai' or 'groq'
-    # Input mode selection
-    input_mode = st.radio(
-        "📋 Select Input Method",
-        ["Direct Input", "Pre-configured Cases"],
-        horizontal=True,
-        help="Choose your preferred method to submit healthcare concerns"
+
+    # Radio options (without that extra box)
+    input_mode = st.selectbox(
+    "📋 Select Input Method",
+    ["Direct Input", "Pre-configured Cases"],
+    key="input_mode"
     )
 
     # Input area
@@ -463,7 +560,7 @@ def main():
                 # Create download data with timestamp
                 download_data = {
                     "timestamp": datetime.now().isoformat(),
-                    "provider": "openai",
+                    "provider": provider_key,
                     "complaint": user_input,
                     "result": result
                 }
@@ -495,8 +592,7 @@ def main():
                 
                 with feedback_col2:
                     st.markdown("### 📊 Response Summary")
-                    st.success(f"⚡ Processed in ~2.3 seconds")
-                    st.info(f"🤖 Provider: OpenAI")
+                    st.info(f"🤖 Provider: {provider}")
                 
             except Exception as e:
                 progress_bar.empty()
