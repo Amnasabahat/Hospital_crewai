@@ -3,11 +3,12 @@ from groq import Groq
 from dotenv import load_dotenv
 from openai import OpenAI
 
+
 load_dotenv()
 
-# 🔑 Clients - Python 3.13 compatible
-openai_client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
-groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+# 🔑 Clients
+openai_client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+groq_client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 # 🔥 Multi-provider response generator
 def generate_response(prompt, provider="openai", model=None):
@@ -18,27 +19,28 @@ def generate_response(prompt, provider="openai", model=None):
                 model=model,
                 messages=[{"role": "user", "content": prompt}]
             )
-            # ✅ Python 3.13 friendly access
-            return response.choices[0].message["content"]
+            return response.choices[0].message.content
 
         elif provider == "groq":
-            model = model or "llama-3.1-8b-instant"
+            model = model or "llama-3.1-8b-instant"  # ✅ Updated model
             response = groq_client.chat.completions.create(
                 model=model,
                 messages=[{"role": "user", "content": prompt}]
             )
-            return response.choices[0].message["content"]
+            return response.choices[0].message.content
+
 
         else:
             raise ValueError(f"❌ Unknown provider: {provider}")
 
     except Exception as e:
         error_msg = str(e)
+
         # ⚡ Auto fallback logic
         if provider == "openai":
             return generate_response(prompt, provider="groq")
         elif provider == "groq":
-            return f"❌ Error: {error_msg}"
+            return generate_response(prompt, provider="huggingface")
         else:
             return f"❌ Error: {error_msg}"
 
