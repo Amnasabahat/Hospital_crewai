@@ -53,15 +53,16 @@ def apply_custom_styles():
         margin-bottom: 2rem;
     }
     
-    /* Card styling */
+    /* Card styling - Dark mode adaptive */
     .input-card, .result-card {
-        background: white;
+        background: var(--background-color, white);
         border-radius: 15px;
         padding: 1.5rem;
         margin: 1rem 0;
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-        border: 1px solid rgba(230, 230, 230, 0.8);
+        border: 1px solid var(--border-color, rgba(230, 230, 230, 0.8));
         transition: all 0.3s ease;
+        color: var(--text-color, #374151);
     }
     
     .input-card:hover {
@@ -72,7 +73,7 @@ def apply_custom_styles():
     .card-title {
         font-size: 1.3rem;
         font-weight: 600;
-        color: #374151;
+        color: var(--text-color, #374151);
         margin-bottom: 1rem;
         display: flex;
         align-items: center;
@@ -101,7 +102,7 @@ def apply_custom_styles():
         border-radius: 12px;
         border: 2px solid #e5e7eb;
         min-height: 60px !important;
-        background: var(background-color, white);
+        background: var(--background-color, white);
         transition: all 0.3s ease;
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
         padding: 0.5rem 1rem;
@@ -221,7 +222,7 @@ def apply_custom_styles():
         box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
     }
     
-    /* Status indicators */
+    /* Status indicators - Dark mode adaptive */
     .status-success {
         background: linear-gradient(135deg, #10b981 0%, #059669 100%);
         color: white;
@@ -244,43 +245,44 @@ def apply_custom_styles():
         box-shadow: 0 8px 25px rgba(245, 158, 11, 0.3);
     }
     
-    /* Processing animation */
+    /* Processing animation - Dark mode adaptive */
     .processing-container {
         text-align: center;
         padding: 3rem 2rem;
-        background: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+        background: var(--processing-bg-light, linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%));
         border-radius: 15px;
         margin: 2rem 0;
-        border: 2px solid #fcd34d;
+        border: 2px solid var(--processing-border-light, #fcd34d);
     }
     
     .processing-title {
         font-size: 1.5rem;
         font-weight: 600;
-        color: #92400e;
+        color: var(--processing-title-light, #92400e);
         margin-bottom: 1rem;
     }
     
     .processing-text {
-        color: #a16207;
+        color: var(--processing-text-light, #a16207);
         font-size: 1.1rem;
     }
     
-    /* Results styling - Dark mode compatible */
+    /* Results styling - FIXED for dark mode */
     .final-output {
-        background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
+        background: var(--final-output-bg, linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%));
         padding: 1.5rem;
         border-radius: 12px;
         border-left: 5px solid #8b5cf6;
         margin: 1rem 0;
         font-size: 1.1rem;
         line-height: 1.6;
-        color: #581c87;
+        color: var(--final-output-color, #581c87);
+        box-shadow: 0 4px 15px rgba(139, 92, 246, 0.1);
     }
     
     .agent-step {
         background: var(--secondary-background-color, #f9fafb);
-        border: 1px solid #e5e7eb;
+        border: 1px solid var(--border-color, #e5e7eb);
         border-left: 4px solid #667eea;
         padding: 1rem;
         margin: 0.5rem 0;
@@ -288,6 +290,7 @@ def apply_custom_styles():
         font-size: 1rem;
         line-height: 1.5;
         color: var(--text-color, #374151);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
     }
     
     .agent-header {
@@ -365,12 +368,68 @@ def apply_custom_styles():
         --text-color: #262730;
         --background-color: #ffffff;
         --secondary-background-color: #f0f2f6;
+        --border-color: rgba(230, 230, 230, 0.8);
+        --final-output-bg: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
+        --final-output-color: #581c87;
+        --processing-bg-light: linear-gradient(135deg, #fef3c7 0%, #fed7aa 100%);
+        --processing-border-light: #fcd34d;
+        --processing-title-light: #92400e;
+        --processing-text-light: #a16207;
     }
     
+    /* Dark mode overrides */
     [data-theme="dark"] {
         --text-color: #fafafa;
         --background-color: #0e1117;
         --secondary-background-color: #262730;
+        --border-color: rgba(255, 255, 255, 0.1);
+        --final-output-bg: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        --final-output-color: #c4b5fd;
+        --processing-bg-light: linear-gradient(135deg, #451a03 0%, #78350f 100%);
+        --processing-border-light: #f59e0b;
+        --processing-title-light: #fbbf24;
+        --processing-text-light: #f59e0b;
+    }
+    
+    /* Force dark mode styling for Streamlit components */
+    [data-theme="dark"] .final-output {
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%) !important;
+        color: #c4b5fd !important;
+        border-left-color: #a78bfa !important;
+    }
+    
+    [data-theme="dark"] .processing-container {
+        background: linear-gradient(135deg, #451a03 0%, #78350f 100%) !important;
+        border-color: #f59e0b !important;
+    }
+    
+    [data-theme="dark"] .processing-title {
+        color: #fbbf24 !important;
+    }
+    
+    [data-theme="dark"] .processing-text {
+        color: #f59e0b !important;
+    }
+    
+    [data-theme="dark"] .agent-step {
+        background: #262730 !important;
+        border-color: rgba(255, 255, 255, 0.1) !important;
+        color: #fafafa !important;
+    }
+    
+    [data-theme="dark"] .agent-header {
+        color: #fafafa !important;
+    }
+    
+    [data-theme="dark"] .card-title {
+        color: #fafafa !important;
+    }
+    
+    [data-theme="dark"] .input-card,
+    [data-theme="dark"] .result-card {
+        background: #0e1117 !important;
+        border-color: rgba(255, 255, 255, 0.1) !important;
+        color: #fafafa !important;
     }
     
     /* Responsive design */
@@ -580,19 +639,13 @@ def main():
                 
                 # Feedback section
                 st.markdown("---")
-                feedback_col1, feedback_col2 = st.columns(2)
-                
-                with feedback_col1:
-                    st.markdown("### 💭 How was this response?")
-                    rating = st.select_slider(
-                        "Rate the quality:",
-                        options=["Poor", "Fair", "Good", "Great", "Excellent"],
-                        value="Good"
-                    )
-                
-                with feedback_col2:
-                    st.markdown("### 📊 Response Summary")
-                    st.info(f"🤖 Provider: {provider}")
+                st.markdown("### 💭 How was this response?")
+                st.select_slider(
+                    "Rate the quality:",
+                    options=["Poor", "Fair", "Good", "Great", "Excellent"],
+                    value="Good"
+                )
+                st.info(f"🤖 Provider: {provider}")
                 
             except Exception as e:
                 progress_bar.empty()

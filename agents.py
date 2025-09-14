@@ -1,8 +1,7 @@
 import os
+from openai import OpenAI
 from groq import Groq
 from dotenv import load_dotenv
-from openai import OpenAI
-
 
 load_dotenv()
 
@@ -22,13 +21,12 @@ def generate_response(prompt, provider="openai", model=None):
             return response.choices[0].message.content
 
         elif provider == "groq":
-            model = model or "llama-3.1-8b-instant"  # ✅ Updated model
+            model = model or "llama-3.1-8b-instant"
             response = groq_client.chat.completions.create(
                 model=model,
                 messages=[{"role": "user", "content": prompt}]
             )
             return response.choices[0].message.content
-
 
         else:
             raise ValueError(f"❌ Unknown provider: {provider}")
@@ -40,9 +38,10 @@ def generate_response(prompt, provider="openai", model=None):
         if provider == "openai":
             return generate_response(prompt, provider="groq")
         elif provider == "groq":
-            return generate_response(prompt, provider="huggingface")
+            return f"❌ Error: {error_msg}"
         else:
             return f"❌ Error: {error_msg}"
+
 
 # 🎯 Example agent function
 def process_complaint(complaint, provider="openai"):
